@@ -20,18 +20,18 @@ class A:
         self.clas=['Select']
         try:
             #creating database
-            self.con1=mysql.connector.connect(host='localhost',user='root',passwd='',charset='utf8')
+            self.con1=mysql.connector.connect(host='localhost',user='root',passwd='kiit',charset='utf8')
             cur1 = self.con1.cursor()
-            cur1.execute("create database  if not exists db_project")
+            cur1.execute("create database if not exists db_project")
 
             #creating tables
-            self.con=mysql.connector.connect(host='localhost',charset='utf8',database='db_project',user='root',password="")
+            self.con=mysql.connector.connect(host='localhost',charset='utf8',database='db_project',user='root',password="kiit")
             c=self.con.cursor()
             c.execute("create table if not exists tbl_class (slno int(3) primary key, cname varchar(50), sec varchar(1), no_students int(2));")
-            c.execute("create table if not exists tbl_main (date varchar(50) primary key, slno int(3), class varchar(4), section varchar(4), total_no_of_students int(3), student_present int(3), subject varchar(20), topic varchar(100), teacher_name varchar(20), weakness varchar(100), monitor_boy varchar(20), monitor_girl varchar(20));")
+            c.execute("create table if not exists tbl_main (date varchar(50) primary key, slno int(3), class varchar(4), section varchar(4), total_no_of_students int(3), student_present int(3), subject varchar(20), topic varchar(100), teacher_name varchar(50), weakness varchar(100), monitor_boy varchar(20), monitor_girl varchar(20));")
             c.execute("create table if not exists tbl_setting (slno int(3) primary key);")
             c.execute("create table if not exists tbl_sub (slno int(2) primary key, sname varchar(30));")
-            c.execute("create table if not exists tbl_teacher (slno int(2) primary key, tname varchar(30));")           
+            c.execute("create table if not exists tbl_teacher (slno int(2) primary key, tname varchar(50));")           
             c.execute("select distinct(cname)from tbl_class")
             result=c.fetchall() 
             for i in result:
@@ -191,7 +191,9 @@ class A:
 
         c=self.con.cursor()
         c.execute("insert into tbl_main(date,slno,class,section,total_no_of_students,student_present,subject,topic,teacher_name,weakness,monitor_boy,monitor_girl)values('"+date+"','"+slno+"','"+clas+"','"+sec+"','"+TS+"','"+TP+"','"+sub+"','"+topic+"','"+teacher_name+"','"+weakness+"','"+monitor_boy+"','"+monitor_girl+"')")
+        #c.execute("insert into tbl_main(date,slno,class,section,total_no_of_students,student_present,subject,topic,teacher_name,weakness,monitor_boy,monitor_girl)".values(date, slno, clas, sec, TS, TP, sub, topic, teacher_name, weakness, monitor_boy, monitor_girl))
         messagebox.showinfo("Title","date="+str(date)+"slno="+str(slno)+"class="+clas+"section="+sec+"total_no_of_students="+TS+"student_present="+TP+"subject="+sub+"topic="+topic+"teacher_name="+teacher_name+"monitor_boy="+monitor_boy+"monitor_girl="+monitor_girl)
+        self.con.commit()
         c.close()
         
     def reset_values(self):
@@ -221,4 +223,3 @@ class A:
                             
         
 ob=A()
-
